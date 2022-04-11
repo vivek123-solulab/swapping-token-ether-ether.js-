@@ -111,19 +111,14 @@
 
 		var SmartContractAddress = '0x1dd5aFBB4Dfb542727B28Ca57713bD5ED74FCaDC';
 
-		var myContract,provider,signer,daiWithSigner
+		var myContract,provider,signer,daiWithSigner;
 
 		$(document).ready(async function () {
-			
 			provider = new ethers.providers.Web3Provider(window.ethereum, "any");
 			const getAccounts = await provider.send("eth_requestAccounts", []);
-			console.log("getAccounts ===>", getAccounts)
 			signer = provider.getSigner()
-			console.log("provider ===>", provider)
 			myContract = new ethers.Contract(SmartContractAddress, SmartContractABI, signer);
-			console.log("myContract ===>", myContract)
-			daiWithSigner = myContract.connect(signer);
-			console.log("daiWithSigner ===>", daiWithSigner)
+			contractWithSigner = myContract.connect(signer);
 		})
 	</script>
 
@@ -131,7 +126,7 @@
 
 		function addEthLiquidity() {
 			console.log(token_address1.value, amount_token_desire.value, amount_token_min.value, amount_ETH_min, to_address.value,deadline1.value)
-			const tx = daiWithSigner.addEthLiquidity(token_address1.value, amount_token_desire.value, amount_token_min.value, amount_ETH_min.value, to_address.value,deadline1.value,{value: amount_token_desire.value}).then((res) => {
+			const tx = contractWithSigner.addEthLiquidity(token_address1.value, amount_token_desire.value, amount_token_min.value, amount_ETH_min.value, to_address.value,deadline1.value,{value: amount_token_desire.value}).then((res) => {
 				console.log(res)
 			});
 			console.log("tx ===>", tx)
